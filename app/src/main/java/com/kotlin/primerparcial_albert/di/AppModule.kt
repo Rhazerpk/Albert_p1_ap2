@@ -2,7 +2,7 @@ package com.kotlin.primerparcial_albert.di
 
 import android.content.Context
 import androidx.room.Room
-import com.kotlin.primerparcial_albert.data.local.TicketDb
+import com.kotlin.primerparcial_albert.data.local.DivisionDb
 import com.kotlin.primerparcial_albert.data.repository.CounterRepository
 import dagger.Module
 import dagger.Provides
@@ -12,17 +12,19 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn ( SingletonComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
     @Singleton
-    fun providesTicketDatabase(@ApplicationContext appContext: Context): TicketDb =
+    fun provideDivisionDatabase(@ApplicationContext appContext: Context): DivisionDb =
         Room.databaseBuilder(
             appContext,
-            TicketDb::class.java,
-            "Ticket.db")
+            DivisionDb::class.java,
+            "Division.db")
             .fallbackToDestructiveMigration()
             .build()
+    @Provides
+    fun providesDivisionDao(db: DivisionDb) = db.divisionDao()
 
     @Singleton
     @Provides

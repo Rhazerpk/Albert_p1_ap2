@@ -1,11 +1,14 @@
 package com.kotlin.primerparcial_albert.data.local.entities
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "Calculadora")
-data class Calculadora(
+@Entity(tableName = "Divisiones")
+data class Division(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = 0,
     val nombre: String = "",
     val dividendo: Float = 0.0f,
     val divisor: Float = 0.0f,
     val cociente: Float = 0.0f,
-    val Residuo: Float = 0.0f
+    val residuo: Float = 0.0f
 )
