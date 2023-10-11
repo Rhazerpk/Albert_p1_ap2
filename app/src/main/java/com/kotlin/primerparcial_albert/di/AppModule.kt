@@ -3,7 +3,6 @@ package com.kotlin.primerparcial_albert.di
 import android.content.Context
 import androidx.room.Room
 import com.kotlin.primerparcial_albert.data.local.DivisionDb
-import com.kotlin.primerparcial_albert.data.repository.CounterRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,8 +24,4 @@ object AppModule {
             .build()
     @Provides
     fun providesDivisionDao(db: DivisionDb) = db.divisionDao()
-
-    @Singleton
-    @Provides
-    fun providePreferences(@ApplicationContext context: Context) = CounterRepository(context)
 }
