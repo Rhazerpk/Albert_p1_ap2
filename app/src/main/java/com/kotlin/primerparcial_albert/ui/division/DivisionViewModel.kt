@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.kotlin.primerparcial_albert.data.local.entities.Division
 import com.kotlin.primerparcial_albert.data.repository.DivisionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,12 +36,39 @@ class DivisionViewModel @Inject constructor(
         nombreError = Nombre.isEmpty()
         dividendoError = Dividendo == 0
         divisorError = Divisor == 0
-        cocienteError = Cociente == 0
-        residuoError = Residuo == 0
+    }
+
+    val prestamos: StateFlow<List<Division>> = divisionRepository.getAll().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = emptyList()
+    )
+
+    fun calcularDivision() {
+        Validar()
+
+        if (!nombreError && !dividendoError && !divisorError) {
+            if (Divisor != 0) {
+                val dividendoFloat = Dividendo.toFloat()
+                val divisorFloat = Divisor.toFloat()
+                val cocienteFloat = dividendoFloat / divisorFloat
+                val residuoFloat = dividendoFloat % divisorFloat
+
+                Cociente = cocienteFloat.toInt()
+                Residuo = residuoFloat.toInt()
+
+                cocienteError = false
+                residuoError = false
+            } else {
+                cocienteError = true
+                residuoError = true
+            }
+        }
     }
 
     fun saveDivision() {
         Validar()
+
         if (!nombreError && !dividendoError && !divisorError && !cocienteError && !residuoError) {
             val division = Division(
                 nombre = Nombre,
@@ -47,14 +77,16 @@ class DivisionViewModel @Inject constructor(
                 cociente = Cociente.toFloat(),
                 residuo = Residuo.toFloat()
             )
-
             viewModelScope.launch {
                 divisionRepository.save(division)
             }
         }
     }
 
-
-
+    fun deleteDivision(division: Division) {
+        viewModelScope.launch {
+            divisionRepository.delete(division)
+        }
+    }
 
 }

@@ -10,7 +10,6 @@ class DivisionRepository @Inject constructor(
     suspend fun save(division: Division) = divisionDao.save(division)
 
     suspend fun delete(division: Division) = divisionDao.delete(division)
-
-    suspend fun getAll(): List<Division> = divisionDao.getAll()
+    fun getAll() = divisionDao.getAll()
 
 }

@@ -5,24 +5,30 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.kotlin.primerparcial_albert.data.local.entities.Division
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DivisionDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun save(division: Division)
     @Query(
         """
         SELECT * 
         FROM Divisiones 
-        WHERE id=:id  
+        WHERE dividirId=:id  
         LIMIT 1
         """
     )
-    suspend fun find(id: Int): Division?
+    suspend fun find(id: Int): Division
     @Delete
     suspend fun delete(division: Division)
 
-    @Query("SELECT * FROM Divisiones")
-    suspend fun getAll(): List<Division>
+    @Query("""
+        SELECT *
+        FROM Divisiones
+        ORDER BY nombre
+    """)
+    fun getAll(): Flow<List<Division>>
 }
