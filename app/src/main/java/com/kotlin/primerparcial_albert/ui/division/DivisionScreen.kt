@@ -63,8 +63,8 @@ fun DivisionScreen(
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { viewModel.Nombre = it },
             label = { Text("Nombre") },
-            isError = viewModel.nombreError,
             singleLine = true,
+            isError = viewModel.isValidNombre,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Sentences,
@@ -83,7 +83,6 @@ fun DivisionScreen(
                 value = viewModel.Dividendo.toString(),
                 onValueChange = { viewModel.Dividendo = it.toIntOrNull() ?: 0 },
                 label = { Text("Dividendo") },
-                isError = viewModel.dividendoError,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -94,6 +93,9 @@ fun DivisionScreen(
                 ),
 
                 )
+            if (viewModel.errorDividendo.isNotEmpty()) {
+                Text(text = viewModel.errorDividendo, color = Color.Red)
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
             Spacer(modifier = Modifier.width(8.dp))
@@ -105,7 +107,6 @@ fun DivisionScreen(
                 value = viewModel.Divisor.toString(),
                 onValueChange = { viewModel.Divisor = it.toIntOrNull() ?: 0 },
                 label = { Text("Divisor") },
-                isError = viewModel.divisorError,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
@@ -115,11 +116,62 @@ fun DivisionScreen(
                     onNext = { focusManager.moveFocus(FocusDirection.Down) }
                 ),
             )
+            if (viewModel.Divisor != 0) {
+                Text(text = viewModel.errorDivisor, color = Color.Red)
+            }
+
+
+        }
+
+        Row {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                value = viewModel.Cociente.toString(),
+                onValueChange = { viewModel.Cociente = it.toIntOrNull() ?: 0 },
+                label = { Text("Cociente") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                ),
+
+                )
+            if (viewModel.errorCociente.isNotEmpty()) {
+                Text(text = viewModel.errorCociente, color = Color.Red)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
+
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                value = viewModel.Residuo.toString(),
+                onValueChange = { viewModel.Residuo = it.toIntOrNull() ?: 0 },
+                label = { Text("Residuo") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                ),
+            )
+            if (viewModel.Residuo != 0) {
+                Text(text = viewModel.errorResiduo, color = Color.Red)
+            }
+
         }
 
         Button(
             onClick = {
-                viewModel.calcularDivision()
                 viewModel.saveDivision()
             },
             modifier = Modifier.padding(top = 16.dp)
@@ -197,22 +249,6 @@ fun DivisionScreen(
                     Text("Eliminar")
                 }
             }
-        }
-//        Text(
-//            text = "Cociente: ${viewModel.Cociente}",
-//            modifier = Modifier.padding(top = 16.dp)
-//        )
-//
-//        Text(
-//            text = "Residuo: ${viewModel.Residuo}",
-//            modifier = Modifier.padding(top = 8.dp)
-//        )
-        if (viewModel.nombreError || viewModel.dividendoError || viewModel.divisorError) {
-            Text(
-                text = "Por favor, complete todos los campos.",
-                color = Color.Red,
-                modifier = Modifier.padding(top = 16.dp)
-            )
         }
     }
 }

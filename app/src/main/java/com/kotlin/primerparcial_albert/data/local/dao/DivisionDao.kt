@@ -25,10 +25,6 @@ interface DivisionDao {
     @Delete
     suspend fun delete(division: Division)
 
-    @Query("""
-        SELECT *
-        FROM Divisiones
-        ORDER BY nombre
-    """)
+    @Query("SELECT * FROM DIVISIONES")
     fun getAll(): Flow<List<Division>>
 }
