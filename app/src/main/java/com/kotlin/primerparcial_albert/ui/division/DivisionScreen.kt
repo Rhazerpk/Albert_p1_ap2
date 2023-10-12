@@ -17,7 +17,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,7 +51,7 @@ fun DivisionScreen(
 ) {
 
     val focusManager = LocalFocusManager.current
-    val divisiones by viewModel.prestamos.collectAsState()
+    val divisiones by viewModel.divisiones.collectAsState()
 
     Column(
         modifier = Modifier
@@ -145,6 +144,9 @@ fun DivisionScreen(
                 modifier = Modifier.size(24.dp)
             )
         }
+
+        Divider(modifier = Modifier.fillMaxWidth())
+
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {

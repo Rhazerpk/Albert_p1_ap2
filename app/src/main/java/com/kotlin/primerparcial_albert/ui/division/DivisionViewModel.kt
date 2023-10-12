@@ -38,7 +38,7 @@ class DivisionViewModel @Inject constructor(
         divisorError = Divisor == 0
     }
 
-    val prestamos: StateFlow<List<Division>> = divisionRepository.getAll().stateIn(
+    val divisiones: StateFlow<List<Division>> = divisionRepository.getAll().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()
