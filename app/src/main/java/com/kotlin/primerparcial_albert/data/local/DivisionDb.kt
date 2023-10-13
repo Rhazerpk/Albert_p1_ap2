@@ -7,7 +7,7 @@ import com.kotlin.primerparcial_albert.data.local.entities.Division
 
 @Database(
     entities = [Division::class ],
-    version = 4,
+    version = 6,
     exportSchema = false
 )
 abstract class DivisionDb : RoomDatabase() {
