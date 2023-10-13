@@ -30,6 +30,7 @@ class DivisionViewModel @Inject constructor(
     var isValidDivisor by mutableStateOf(true)
     var isValidCociente by mutableStateOf(true)
     var isValidResiduo by mutableStateOf(true)
+    var isCorrectDivision by mutableStateOf(true)
 
     var errorDividendo by mutableStateOf("")
     var errorDivisor by mutableStateOf("")
@@ -37,24 +38,35 @@ class DivisionViewModel @Inject constructor(
     var errorResiduo by mutableStateOf("")
 
     private fun Validar(): Boolean {
-        isValidNombre = Nombre.isNotBlank()
-        isValidDividendo = Dividendo != 0
-        isValidDivisor = Divisor != 0 && Divisor <= Dividendo
-        isValidCociente = Cociente >= 0
-        isValidResiduo = Residuo <= Dividendo && Residuo != 0
 
-        errorDividendo = if (isValidDividendo) "" else "Dividiendo requerido"
-        errorDivisor = when {
-            !isValidDivisor -> if (Divisor == 0) "Divisor requerido" else "Divisor incorrecto"
-            else -> ""
-        }
-        errorCociente = if (isValidCociente) "" else "Cociente requerido"
-        errorResiduo = when {
-            !isValidResiduo -> if (Residuo == 0) "Residuo requerido" else "Residuo inválido"
-            else -> ""
+        var verifyDividendo:Int?
+        isValidNombre = Nombre.isNotEmpty()
+        isValidDividendo = Dividendo > 0
+        isValidDivisor = Divisor > 0
+        isValidCociente = Cociente > 0
+        isValidResiduo = Residuo > -1
+
+        verifyDividendo = Cociente * Divisor
+        verifyDividendo += Residuo
+        isCorrectDivision = verifyDividendo == Dividendo
+
+        if(verifyDividendo == Dividendo)
+            isCorrectDivision = true
+        else{
+            var result:Int
+
+            result = Dividendo / Divisor
+
+            if(result != Cociente)
+                errorCociente = "El cociente está incorrecto"
+
+            result = Dividendo % Divisor
+
+            if(result != Residuo)
+                errorResiduo = "El residuo está incorrecto"
         }
 
-        return isValidNombre && isValidDividendo && isValidDivisor && isValidCociente && isValidResiduo
+        return !(Nombre == "" || Dividendo <= 0 || Divisor <= 0 || Cociente <= 0 || Residuo < 0 || !isCorrectDivision)
     }
 
     val divisiones: StateFlow<List<Division>> = divisionRepository.getAll().stateIn(

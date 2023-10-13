@@ -64,7 +64,6 @@ fun DivisionScreen(
             onValueChange = { viewModel.Nombre = it },
             label = { Text("Nombre") },
             singleLine = true,
-            isError = viewModel.isValidNombre,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Sentences,
@@ -75,99 +74,97 @@ fun DivisionScreen(
             ),
         )
 
-        Row {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                value = viewModel.Dividendo.toString(),
-                onValueChange = { viewModel.Dividendo = it.toIntOrNull() ?: 0 },
-                label = { Text("Dividendo") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-
-                )
-            if (viewModel.errorDividendo.isNotEmpty()) {
-                Text(text = viewModel.errorDividendo, color = Color.Red)
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-            Spacer(modifier = Modifier.width(8.dp))
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                value = viewModel.Divisor.toString(),
-                onValueChange = { viewModel.Divisor = it.toIntOrNull() ?: 0 },
-                label = { Text("Divisor") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-            )
-            if (viewModel.Divisor != 0) {
-                Text(text = viewModel.errorDivisor, color = Color.Red)
-            }
-
-
+        if (!viewModel.isValidNombre)
+        {
+            Text(text = "El nombre es requerido.", color = Color.Red, fontSize = 12.sp)
         }
 
         Row {
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                value = viewModel.Cociente.toString(),
-                onValueChange = { viewModel.Cociente = it.toIntOrNull() ?: 0 },
-                label = { Text("Cociente") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
+            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+                OutlinedTextField(
+                    value = viewModel.Dividendo.toString(),
+                    onValueChange = { viewModel.Dividendo = it.toIntOrNull() ?: 0 },
+                    label = { Text("Dividendo") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                    ),
 
-                )
-            if (viewModel.errorCociente.isNotEmpty()) {
-                Text(text = viewModel.errorCociente, color = Color.Red)
+                    )
+                if (viewModel.errorDividendo.isNotEmpty()) {
+                    Text(text = viewModel.errorDividendo, color = Color.Red)
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
             Spacer(modifier = Modifier.width(8.dp))
 
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                value = viewModel.Residuo.toString(),
-                onValueChange = { viewModel.Residuo = it.toIntOrNull() ?: 0 },
-                label = { Text("Residuo") },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                keyboardActions = KeyboardActions(
-                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
-                ),
-            )
-            if (viewModel.Residuo != 0) {
-                Text(text = viewModel.errorResiduo, color = Color.Red)
+            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+                OutlinedTextField(
+                    value = viewModel.Divisor.toString(),
+                    onValueChange = { viewModel.Divisor = it.toIntOrNull() ?: 0 },
+                    label = { Text("Divisor") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                    ),
+                )
+                if (viewModel.Divisor != 0) {
+                    Text(text = viewModel.errorDivisor, color = Color.Red)
+                }
+            }
+        }
+
+        Row {
+            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+                OutlinedTextField(
+                    value = viewModel.Cociente.toString(),
+                    onValueChange = { viewModel.Cociente = it.toIntOrNull() ?: 0 },
+                    label = { Text("Cociente") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                    ),
+
+                    )
+                if (viewModel.errorCociente.isNotEmpty()) {
+                    Text(text = viewModel.errorCociente, color = Color.Red)
+                }
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+                OutlinedTextField(
+                    value = viewModel.Residuo.toString(),
+                    onValueChange = { viewModel.Residuo = it.toIntOrNull() ?: 0 },
+                    label = { Text("Residuo") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                    ),
+                )
+                if (viewModel.Residuo != 0) {
+                    Text(text = viewModel.errorResiduo, color = Color.Red)
+                }
+            }
         }
 
         Button(
@@ -252,4 +249,3 @@ fun DivisionScreen(
         }
     }
 }
-
