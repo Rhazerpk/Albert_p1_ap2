@@ -80,7 +80,9 @@ fun DivisionScreen(
         }
 
         Row {
-            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+            Column(modifier = Modifier
+                .padding(8.dp)
+                .weight(1f)) {
                 OutlinedTextField(
                     value = viewModel.Dividendo.toString(),
                     onValueChange = { viewModel.Dividendo = it.toIntOrNull() ?: 0 },
@@ -103,7 +105,9 @@ fun DivisionScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Spacer(modifier = Modifier.width(8.dp))
 
-            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+            Column(modifier = Modifier
+                .padding(8.dp)
+                .weight(1f)) {
                 OutlinedTextField(
                     value = viewModel.Divisor.toString(),
                     onValueChange = { viewModel.Divisor = it.toIntOrNull() ?: 0 },
@@ -124,7 +128,9 @@ fun DivisionScreen(
         }
 
         Row {
-            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+            Column(modifier = Modifier
+                .padding(8.dp)
+                .weight(1f)) {
                 OutlinedTextField(
                     value = viewModel.Cociente.toString(),
                     onValueChange = { viewModel.Cociente = it.toIntOrNull() ?: 0 },
@@ -147,7 +153,9 @@ fun DivisionScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Spacer(modifier = Modifier.width(8.dp))
 
-            Column(modifier = Modifier.padding(8.dp).weight(1f)) {
+            Column(modifier = Modifier
+                .padding(8.dp)
+                .weight(1f)) {
                 OutlinedTextField(
                     value = viewModel.Residuo.toString(),
                     onValueChange = { viewModel.Residuo = it.toIntOrNull() ?: 0 },
@@ -200,52 +208,48 @@ fun DivisionScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             items(divisiones) { division ->
-                Column(
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
+                    Column(
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             text = "${division.nombre}",
                             style = TextStyle(fontWeight = FontWeight.Bold),
                             fontSize = 18.sp
                         )
+                        Row(
+                            modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+                        ) {
+                            Text(text = "Dividendo: ${division.dividendo}")
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "Divisor: ${division.divisor}")
+                        }
+                        Row(
+                            modifier = Modifier.padding(start = 8.dp, top = 4.dp)
+                        ) {
+                            Text(text = "Cociente: ${division.cociente}")
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "Residuo: ${division.residuo}")
+                        }
                     }
-
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
+                    Button(
+                        onClick = {
+                            viewModel.deleteDivision(division)
+                        },
+                        modifier = Modifier
+                            .size(50.dp)
+                            .padding(top = 8.dp)
                     ) {
-                        Text(text = "Dividendo: ${division.dividendo}")
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Divisor: ${division.divisor}")
+                        Text("X")
                     }
-
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(text = "Cociente: ${division.cociente}")
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Residuo: ${division.residuo}")
-                    }
-
-                    Divider(modifier = Modifier.fillMaxWidth())
                 }
 
-                Button(
-                    onClick = {
-                        viewModel.deleteDivision(division)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                ) {
-                    Text("Eliminar")
-                }
+                Divider(modifier = Modifier.fillMaxWidth())
             }
         }
+
     }
 }

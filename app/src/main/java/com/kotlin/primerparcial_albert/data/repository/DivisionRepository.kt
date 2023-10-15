@@ -8,8 +8,6 @@ class DivisionRepository @Inject constructor(
     private val divisionDao: DivisionDao
 ) {
     suspend fun save(division: Division) = divisionDao.save(division)
-
     suspend fun delete(division: Division) = divisionDao.delete(division)
     fun getAll() = divisionDao.getAll()
-
 }

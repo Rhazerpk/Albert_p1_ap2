@@ -6,7 +6,7 @@ import com.kotlin.primerparcial_albert.data.local.dao.DivisionDao
 import com.kotlin.primerparcial_albert.data.local.entities.Division
 
 @Database(
-    entities = [Division::class ],
+    entities = [Division::class],
     version = 6,
     exportSchema = false
 )
