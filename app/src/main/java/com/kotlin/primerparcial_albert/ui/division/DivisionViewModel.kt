@@ -37,7 +37,7 @@ class DivisionViewModel @Inject constructor(
     var errorCociente by mutableStateOf("")
     var errorResiduo by mutableStateOf("")
 
-    private fun Validar(): Boolean {
+    private fun validate(): Boolean {
 
         var verifyDividendo:Int?
         isValidNombre = Nombre.isNotEmpty()
@@ -53,9 +53,8 @@ class DivisionViewModel @Inject constructor(
         if(verifyDividendo == Dividendo)
             isCorrectDivision = true
         else{
-            var result:Int
 
-            result = Dividendo / Divisor
+            var result:Int = Dividendo / Divisor
 
             if(result != Cociente)
                 errorCociente = "El cociente está incorrecto"
@@ -69,14 +68,14 @@ class DivisionViewModel @Inject constructor(
         return !(Nombre == "" || Dividendo <= 0 || Divisor <= 0 || Cociente <= 0 || Residuo < 0 || !isCorrectDivision)
     }
 
-    val divisiones: StateFlow<List<Division>> = divisionRepository.getAll().stateIn(
+    val divisions: StateFlow<List<Division>> = divisionRepository.getAll().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList()
     )
 
     fun saveDivision() {
-        if (Validar()) {
+        if (validate()) {
             val division = Division(
                 nombre = Nombre,
                 dividendo = Dividendo.toFloat(),
